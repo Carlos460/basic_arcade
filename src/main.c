@@ -1,10 +1,19 @@
 #include "./constants.h"
+#include "SDL2/SDL_render.h"
 #include <SDL2/SDL.h>
 #include <stdio.h>
 
 int game_is_running = FALSE;
 SDL_Window *window = NULL;
 SDL_Renderer *renderer = NULL;
+
+struct ball {
+  float x;
+  float y;
+  float width;
+  float height;
+} ball;
+
 
 int initialize_window(void) {
   if (SDL_Init(SDL_INIT_EVERYTHING) != 0) {
@@ -36,7 +45,10 @@ int initialize_window(void) {
 }
 
 void setup(void) {
-  
+  ball.x = 20;
+  ball.y = 20;
+  ball.width = 15;
+  ball.height = 15;
 }
 
 void process_input(void) {
@@ -51,15 +63,34 @@ void process_input(void) {
       if (event.key.keysym.sym == SDLK_ESCAPE)
         game_is_running = FALSE;
       break;
+    default:
+      // do nothing
+      break;
   }
 }
 
 void update(void) {
-  
+  // TODO:  
+  ball.x += 0.01;
+  ball.y += 0.01;
 }
 
 void render(void) {
-  
+  SDL_SetRenderDrawColor(renderer, 0, 0, 0, 0);
+  SDL_RenderClear(renderer);
+
+  // Draw a rectangle
+  SDL_Rect ball_rect = {
+    (int)ball.x,
+    (int)ball.y,
+    (int)ball.width,
+    (int)ball.height,
+  };
+
+  SDL_SetRenderDrawColor(renderer, 255, 255,255, 255);
+  SDL_RenderFillRect(renderer, &ball_rect);
+
+  SDL_RenderPresent(renderer);
 }
 
 void destroy_window() {
