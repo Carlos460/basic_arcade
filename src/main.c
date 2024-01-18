@@ -1,11 +1,14 @@
 #include "./constants.h"
 #include "SDL2/SDL_render.h"
+#include "SDL2/SDL_timer.h"
 #include <SDL2/SDL.h>
 #include <stdio.h>
 
 int game_is_running = FALSE;
 SDL_Window *window = NULL;
 SDL_Renderer *renderer = NULL;
+
+int last_frame_time = 0;
 
 struct ball {
   float x;
@@ -70,9 +73,12 @@ void process_input(void) {
 }
 
 void update(void) {
-  // TODO:  
-  ball.x += 0.01;
-  ball.y += 0.01;
+  while(!SDL_TICKS_PASSED(SDL_GetTicks(), last_frame_time + FRAME_TARGET_TIME));
+  
+  last_frame_time = SDL_GetTicks();
+  
+  ball.x += 1;
+  ball.y += 1;
 }
 
 void render(void) {
