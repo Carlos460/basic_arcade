@@ -1,4 +1,6 @@
 #include "./constants.h"
+#include "SDL2/SDL_events.h"
+#include "SDL2/SDL_keycode.h"
 #include "SDL2/SDL_render.h"
 #include "SDL2/SDL_timer.h"
 #include <SDL2/SDL.h>
@@ -15,8 +17,10 @@ struct ball {
   float y;
   float width;
   float height;
-} ball;
+} player1, player2;
 
+int controller1_direction = 0;
+int controller2_direction = 0;
 
 int initialize_window(void) {
   if (SDL_Init(SDL_INIT_EVERYTHING) != 0) {
@@ -48,10 +52,15 @@ int initialize_window(void) {
 }
 
 void setup(void) {
-  ball.x = 20;
-  ball.y = 20;
-  ball.width = 15;
-  ball.height = 15;
+  player1.x = 50;
+  player1.y = 100;
+  player1.width = 15;
+  player1.height = 100;
+  
+  player2.x = 750;
+  player2.y = 100;
+  player2.width = 15;
+  player2.height = 100;
 }
 
 void process_input(void) {
@@ -65,7 +74,28 @@ void process_input(void) {
     case SDL_KEYDOWN:
       if (event.key.keysym.sym == SDLK_ESCAPE)
         game_is_running = FALSE;
+      // player 1
+      if (event.key.keysym.sym == SDLK_DOWN || event.key.keysym.sym == SDLK_a)
+        controller1_direction = -1;
+      if (event.key.keysym.sym == SDLK_UP || event.key.keysym.sym == SDLK_d)
+        controller1_direction = 1;
+      // player 2
+      if (event.key.keysym.sym == SDLK_DOWN || event.key.keysym.sym == SDLK_LEFT)
+        controller2_direction = -1;
+      if (event.key.keysym.sym == SDLK_UP || event.key.keysym.sym == SDLK_RIGHT)
+        controller2_direction = 1;
       break;
+    case SDL_KEYUP:
+      // player 1
+      if (event.key.keysym.sym == SDLK_DOWN || event.key.keysym.sym == SDLK_a && controller1_direction == -1)
+        controller1_direction = 0;
+      if (event.key.keysym.sym == SDLK_UP || event.key.keysym.sym == SDLK_d && controller1_direction == 1)
+        controller1_direction = 0;
+      // player 2
+      if (event.key.keysym.sym == SDLK_DOWN || event.key.keysym.sym == SDLK_LEFT && controller2_direction == -1)
+        controller2_direction = 0;
+      if (event.key.keysym.sym == SDLK_UP || event.key.keysym.sym == SDLK_RIGHT && controller2_direction == 1)
+        controller2_direction = 0;
     default:
       // do nothing
       break;
@@ -73,12 +103,20 @@ void process_input(void) {
 }
 
 void update(void) {
-  while(!SDL_TICKS_PASSED(SDL_GetTicks(), last_frame_time + FRAME_TARGET_TIME));
+  // sleep the execution
+  int time_to_wait = FRAME_TARGET_TIME - (SDL_GetTicks() - last_frame_time);
+
+  if (time_to_wait > 0 && time_to_wait <= FRAME_TARGET_TIME) {
+    SDL_Delay(time_to_wait);
+  }
   
+  // delta time
+  float delta_time = (SDL_GetTicks() - last_frame_time) / 1000.0f;
+
   last_frame_time = SDL_GetTicks();
   
-  ball.x += 1;
-  ball.y += 1;
+  player1.y += SPEED * delta_time * controller1_direction;
+  player2.y += SPEED * delta_time * controller2_direction;
 }
 
 void render(void) {
@@ -86,15 +124,23 @@ void render(void) {
   SDL_RenderClear(renderer);
 
   // Draw a rectangle
-  SDL_Rect ball_rect = {
-    (int)ball.x,
-    (int)ball.y,
-    (int)ball.width,
-    (int)ball.height,
+  SDL_Rect player1_rect = {
+    (int)player1.x,
+    (int)player1.y,
+    (int)player1.width,
+    (int)player1.height,
+  };
+  
+  SDL_Rect player2_rect = {
+    (int)player2.x,
+    (int)player2.y,
+    (int)player2.width,
+    (int)player2.height,
   };
 
   SDL_SetRenderDrawColor(renderer, 255, 255,255, 255);
-  SDL_RenderFillRect(renderer, &ball_rect);
+  SDL_RenderFillRect(renderer, &player1_rect);
+  SDL_RenderFillRect(renderer, &player2_rect);
 
   SDL_RenderPresent(renderer);
 }
