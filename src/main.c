@@ -81,6 +81,14 @@ void handle_controller_events(SDL_Event event, struct Player *player) {
   }
 }
 
+void out_of_bound_player(struct Player *player) {
+  if(player->y <= 0) {
+    player->y = 0;
+  } else if(player->y >= WINDOW_HEIGHT - 100 ) {
+    player->y = WINDOW_HEIGHT - 100;
+  }
+}
+
 void process_input(void) {
   SDL_Event event;
   SDL_PollEvent(&event);
@@ -111,7 +119,11 @@ void update(void) {
 
   player1.y += SPEED * delta_time * player1.direction;
   player2.y += SPEED * delta_time * player2.direction;
+
+  out_of_bound_player(&player1);
+  out_of_bound_player(&player2);
 }
+
 
 void render(void) {
   SDL_SetRenderDrawColor(renderer, 0, 0, 0, 0);
