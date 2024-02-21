@@ -1,9 +1,10 @@
 #include "./constants.h"
+#include "./game/player.h"
+#include "./game/controller.h"
 #include "SDL2/SDL_events.h"
 #include "SDL2/SDL_keycode.h"
 #include "SDL2/SDL_render.h"
 #include "SDL2/SDL_timer.h"
-#include "game/player.c"
 #include <SDL2/SDL.h>
 #include <stdio.h>
 
@@ -38,28 +39,22 @@ int initialize_window(void) {
   return TRUE;
 }
 
-void setup_players(struct Player *p1, struct Player *p2) {
-  p1->x = 50;
-  p1->y = 100;
-  p1->width = 15;
-  p1->height = 100;
-  p1->direction = 0;
-  p1->controller.up = SDLK_a;
-  p1->controller.down = SDLK_d;
+void setup(void) {
+  // player 1 setup
+  player_constructor(&player1, 50, 100, 15, 100);
 
-  p2->x = 750;
-  p2->y = 100;
-  p2->width = 15;
-  p2->height = 100;
-  p2->direction = 0;
-  p2->controller.up = SDLK_LEFT;
-  p2->controller.down = SDLK_RIGHT;
+  struct controller controller1 = {SDLK_a, SDLK_d};
+  player1.controller = controller1;
+
+  // player 2 setup
+  player_constructor(&player2, 750, 100, 15, 100);
+
+  struct controller controller2 = {SDLK_LEFT, SDLK_RIGHT};
+  player2.controller = controller2;
 }
 
-void setup(void) { setup_players(&player1, &player2); }
-
-void handle_controller_events(SDL_Event event, struct Player *player) {
-  struct PlayerController controller = player->controller;
+void handle_controller_events(SDL_Event event, struct player *player) {
+  struct controller controller = player->controller;
   int direction = player->direction;
 
   switch (event.type) {
@@ -78,14 +73,6 @@ void handle_controller_events(SDL_Event event, struct Player *player) {
   default:
     // do nothing
     break;
-  }
-}
-
-void out_of_bound_player(struct Player *player) {
-  if(player->y <= 0) {
-    player->y = 0;
-  } else if(player->y >= WINDOW_HEIGHT - 100 ) {
-    player->y = WINDOW_HEIGHT - 100;
   }
 }
 
@@ -120,10 +107,9 @@ void update(void) {
   player1.y += SPEED * delta_time * player1.direction;
   player2.y += SPEED * delta_time * player2.direction;
 
-  out_of_bound_player(&player1);
-  out_of_bound_player(&player2);
+  player_window_collision(&player1, WINDOW_WIDTH, WINDOW_HEIGHT);
+  player_window_collision(&player2, WINDOW_WIDTH, WINDOW_HEIGHT);
 }
-
 
 void render(void) {
   SDL_SetRenderDrawColor(renderer, 0, 0, 0, 0);

@@ -1,15 +1,19 @@
-#include "SDL2/SDL_keycode.h"
+#include "controller.h"
 
-struct PlayerController {
-  SDL_KeyCode up;
-  SDL_KeyCode down;
-};
-
-struct Player {
+struct player {
   float x;
   float y;
   float width;
   float height;
   int direction;
-  struct PlayerController controller;
-};
+  struct controller controller;
+} player1, player2;
+
+void player_constructor(struct player *p, float x, float y, float width,
+                        float height);
+
+void player_window_collision(struct player *p, int window_width,
+                             int window_height);
+
+void player_attach_controller(struct player *p, struct controller c);
+  
