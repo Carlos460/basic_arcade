@@ -1,6 +1,7 @@
 #include "./constants.h"
 #include "./game/player.h"
 #include "./game/controller.h"
+#include "./game/projectile.h"
 #include "SDL2/SDL_events.h"
 #include "SDL2/SDL_keycode.h"
 #include "SDL2/SDL_render.h"
@@ -51,6 +52,9 @@ void setup(void) {
 
   struct controller controller2 = {SDLK_LEFT, SDLK_RIGHT};
   player2.controller = controller2;
+
+  // ball setup
+  projectile_constructor(&ball, 100, 100, 15, 15);
 }
 
 void handle_controller_events(SDL_Event event, struct player *player) {
@@ -107,6 +111,11 @@ void update(void) {
   player1.y += SPEED * delta_time * player1.direction;
   player2.y += SPEED * delta_time * player2.direction;
 
+  ball.x += SPEED * delta_time * ball.direction_x;
+  ball.y += SPEED * delta_time * ball.direction_y;
+
+  projectile_window_collision(&ball, WINDOW_WIDTH, WINDOW_HEIGHT);
+  projectile_player_collision(&ball, &player1, &player2);
   player_window_collision(&player1, WINDOW_WIDTH, WINDOW_HEIGHT);
   player_window_collision(&player2, WINDOW_WIDTH, WINDOW_HEIGHT);
 }
@@ -130,9 +139,17 @@ void render(void) {
       (int)player2.height,
   };
 
+  SDL_Rect ball_rect = {
+    (int)ball.x,
+    (int)ball.y,
+    (int)ball.width,
+    (int)ball.height,
+  };
+
   SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
-  SDL_RenderFillRect(renderer, &player1_rect);
+  SDL_RenderFillRect(renderer, &player1_rect); 
   SDL_RenderFillRect(renderer, &player2_rect);
+  SDL_RenderFillRect(renderer, &ball_rect);
 
   SDL_RenderPresent(renderer);
 }

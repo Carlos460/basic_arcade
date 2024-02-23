@@ -1,3 +1,6 @@
+#ifndef PLAYER
+#define PLAYER
+
 #include "controller.h"
 
 struct player {
@@ -17,3 +20,4 @@ void player_window_collision(struct player *p, int window_width,
 
 void player_attach_controller(struct player *p, struct controller c);
   
+#endif /* ifndef PLAYER */
