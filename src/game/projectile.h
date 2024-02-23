@@ -1,3 +1,7 @@
+#ifndef PROJECTILE
+#define PROJECTILE
+
+
 #include "./player.h"
 
 struct projectile {
@@ -32,20 +36,28 @@ void projectile_player_collision(struct projectile *p, struct player *p1, struct
 }
 
 void projectile_window_collision(struct projectile *p, int window_width, int window_height) {
+  // top window collision
   if (p->y <= 0) {
     p->y = 0;
     p->direction_y *= -1;
   }
+  
+  // bottom window collision
   if (p->y >= window_height - p->height) {
     p->y = window_height - p->height;
     p->direction_y *= -1;
   }
+ 
+  // left and right side of window will score for player
   if (p->x <= 0) {
     p->x = 0;
     p->direction_x *= -1;
   }
+ 
   if (p->x >= window_width - p->width) {
     p->x = window_width - p->width;
     p->direction_x *= -1;
-  } 
+  }
 }
+
+#endif // !PROJECTILE

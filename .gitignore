@@ -1,2 +1,5 @@
 build
+debug
 .cache
+.vscode
+.DS_Store

@@ -1,7 +1,9 @@
 #include "./constants.h"
-#include "./game/player.h"
 #include "./game/controller.h"
+#include "./game/player.h"
 #include "./game/projectile.h"
+#include "./game/renderer.h"
+#include "./game/window.h"
 #include "SDL2/SDL_events.h"
 #include "SDL2/SDL_keycode.h"
 #include "SDL2/SDL_render.h"
@@ -10,35 +12,8 @@
 #include <stdio.h>
 
 int game_is_running = FALSE;
-SDL_Window *window = NULL;
-SDL_Renderer *renderer = NULL;
 
 int last_frame_time = 0;
-
-int initialize_window(void) {
-  if (SDL_Init(SDL_INIT_EVERYTHING) != 0) {
-    fprintf(stderr, "Error initializing SDL.\n");
-    return FALSE;
-  }
-
-  window =
-      SDL_CreateWindow(NULL, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
-                       WINDOW_WIDTH, WINDOW_HEIGHT, SDL_WINDOW_BORDERLESS);
-
-  if (!window) {
-    fprintf(stderr, "Error creating SDL Window.\n");
-    return FALSE;
-  }
-
-  renderer = SDL_CreateRenderer(window, -1, 0);
-
-  if (!renderer) {
-    fprintf(stderr, "Error creating SDL Renderer.\n");
-    return FALSE;
-  }
-
-  return TRUE;
-}
 
 void setup(void) {
   // player 1 setup
@@ -120,58 +95,19 @@ void update(void) {
   player_window_collision(&player2, WINDOW_WIDTH, WINDOW_HEIGHT);
 }
 
-void render(void) {
-  SDL_SetRenderDrawColor(renderer, 0, 0, 0, 0);
-  SDL_RenderClear(renderer);
-
-  // Draw a rectangle
-  SDL_Rect player1_rect = {
-      (int)player1.x,
-      (int)player1.y,
-      (int)player1.width,
-      (int)player1.height,
-  };
-
-  SDL_Rect player2_rect = {
-      (int)player2.x,
-      (int)player2.y,
-      (int)player2.width,
-      (int)player2.height,
-  };
-
-  SDL_Rect ball_rect = {
-    (int)ball.x,
-    (int)ball.y,
-    (int)ball.width,
-    (int)ball.height,
-  };
-
-  SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
-  SDL_RenderFillRect(renderer, &player1_rect); 
-  SDL_RenderFillRect(renderer, &player2_rect);
-  SDL_RenderFillRect(renderer, &ball_rect);
-
-  SDL_RenderPresent(renderer);
-}
-
-void destroy_window() {
-  SDL_DestroyRenderer(renderer);
-  SDL_DestroyWindow(window);
-  SDL_Quit();
-}
-
 int main() {
-  game_is_running = initialize_window();
+  game_is_running =
+      initialize_window(&window_manager, &render_manager);
 
   setup();
 
   while (game_is_running) {
     process_input();
     update();
-    render();
+    render(render_manager.renderer, &player1, &player2, &ball);
   }
 
-  destroy_window();
+  destroy_window(window_manager.window, render_manager.renderer);
 
   return 0;
 }
