@@ -10,7 +10,7 @@ struct render_manager {
 } render_manager = {NULL};
 
 void render(SDL_Renderer *renderer,struct player *player1, struct player *player2, struct projectile *ball) { 
-  SDL_SetRenderDrawColor(renderer, 200, 0, 0, 0);
+  SDL_SetRenderDrawColor(renderer, 0, 0, 0, 0);
   SDL_RenderClear(renderer);
 
   // Draw a rectangle
