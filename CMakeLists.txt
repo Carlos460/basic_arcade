@@ -7,6 +7,7 @@ link_directories(${CMAKE_SOURCE_DIR}/lib/SDL2)
 
 add_executable(main
             ./src/main.c
+            ./src/game/controller.c
             ./src/game/player.c)
 
 target_link_libraries(main SDL2)

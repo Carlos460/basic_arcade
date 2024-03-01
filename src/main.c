@@ -9,7 +9,6 @@
 #include "SDL2/SDL_render.h"
 #include "SDL2/SDL_timer.h"
 #include <SDL2/SDL.h>
-#include <stdio.h>
 
 int game_is_running = FALSE;
 
@@ -20,40 +19,18 @@ void setup(void) {
   player_constructor(&player1, 50, 100, 15, 100);
 
   struct controller controller1 = {SDLK_a, SDLK_d};
-  player1.controller = controller1;
+  player_attach_controller(&player1, controller1);
 
   // player 2 setup
   player_constructor(&player2, 750, 100, 15, 100);
 
   struct controller controller2 = {SDLK_LEFT, SDLK_RIGHT};
-  player2.controller = controller2;
+  player_attach_controller(&player2, controller2);
 
   // ball setup
   projectile_constructor(&ball, 100, 100, 15, 15);
 }
 
-void handle_controller_events(SDL_Event event, struct player *player) {
-  struct controller controller = player->controller;
-  int direction = player->direction;
-
-  switch (event.type) {
-  case SDL_KEYDOWN:
-    if (event.key.keysym.sym == controller.up)
-      player->direction = -1;
-    if (event.key.keysym.sym == controller.down)
-      player->direction = 1;
-    break;
-  case SDL_KEYUP:
-    if (event.key.keysym.sym == controller.up && direction == -1)
-      player->direction = 0;
-    if (event.key.keysym.sym == controller.down && direction == 1)
-      player->direction = 0;
-    break;
-  default:
-    // do nothing
-    break;
-  }
-}
 
 void process_input(void) {
   SDL_Event event;
@@ -66,8 +43,8 @@ void process_input(void) {
     game_is_running = FALSE;
 
   // player input
-  handle_controller_events(event, &player1);
-  handle_controller_events(event, &player2);
+  controller_handle_events(event, &player1);
+  controller_handle_events(event, &player2);
 }
 
 void update(void) {

@@ -1,4 +1,5 @@
 #include "player.h"
+#include "controller.h"
 
 void player_constructor(struct player *p, float x, float y, float width,
                    float height) {
