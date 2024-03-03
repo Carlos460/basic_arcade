@@ -1,8 +1,8 @@
-#include "../constants.h"
-#include "./renderer.h"
 #include "SDL2/SDL.h"
 #include "SDL2/SDL_render.h"
 #include "SDL2/SDL_video.h"
+#include "constants.h"
+#include "renderer.h"
 
 struct window_manager {
   SDL_Window *window;

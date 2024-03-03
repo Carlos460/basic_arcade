@@ -1,14 +1,14 @@
-#include "./constants.h"
+#include "./game/constants.h"
 #include "./game/controller.h"
 #include "./game/player.h"
 #include "./game/projectile.h"
 #include "./game/renderer.h"
 #include "./game/window.h"
+#include "SDL2/SDL.h"
 #include "SDL2/SDL_events.h"
 #include "SDL2/SDL_keycode.h"
 #include "SDL2/SDL_render.h"
 #include "SDL2/SDL_timer.h"
-#include <SDL2/SDL.h>
 
 int game_is_running = FALSE;
 
@@ -16,13 +16,13 @@ int last_frame_time = 0;
 
 void setup(void) {
   // player 1 setup
-  player_constructor(&player1, 50, 100, 15, 100);
+  player_constructor(&player1, 50, 100, 10, 100);
 
   struct controller controller1 = {SDLK_a, SDLK_d};
   player_attach_controller(&player1, controller1);
 
   // player 2 setup
-  player_constructor(&player2, 750, 100, 15, 100);
+  player_constructor(&player2, 750, 100, 10, 100);
 
   struct controller controller2 = {SDLK_LEFT, SDLK_RIGHT};
   player_attach_controller(&player2, controller2);
@@ -30,7 +30,6 @@ void setup(void) {
   // ball setup
   projectile_constructor(&ball, 100, 100, 15, 15);
 }
-
 
 void process_input(void) {
   SDL_Event event;
@@ -73,8 +72,7 @@ void update(void) {
 }
 
 int main() {
-  game_is_running =
-      initialize_window(&window_manager, &render_manager);
+  game_is_running = initialize_window(&window_manager, &render_manager);
 
   setup();
 
