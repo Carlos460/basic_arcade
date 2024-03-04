@@ -9,6 +9,7 @@ add_executable(basic_arcade
             ./src/main.c
             ./src/game/controller.c
             ./src/game/player.c
-            ./src/game/projectile.c)
+            ./src/game/projectile.c
+            ./src/game/renderer.c)
 
 target_link_libraries(basic_arcade SDL2)
