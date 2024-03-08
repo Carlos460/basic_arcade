@@ -5,9 +5,9 @@
 #include "player.h"
 #include "projectile.h"
 
-struct render_manager {
+typedef struct {
   SDL_Renderer *renderer;
-} render_manager = {NULL};
+} render_manager;
 
 void render(SDL_Renderer *renderer, struct player *player1,
             struct player *player2, struct projectile *ball);

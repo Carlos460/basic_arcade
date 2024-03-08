@@ -72,17 +72,20 @@ void update(void) {
 }
 
 int main() {
-  game_is_running = initialize_window(&window_manager, &render_manager);
+  window_manager wm = {NULL};
+  render_manager rm = {NULL};
+
+  game_is_running = initialize_window(&wm, &rm);
 
   setup();
 
   while (game_is_running) {
     process_input();
     update();
-    render(render_manager.renderer, &player1, &player2, &ball);
+    render(rm.renderer, &player1, &player2, &ball);
   }
 
-  destroy_window(window_manager.window, render_manager.renderer);
+  destroy_window(wm.window, rm.renderer);
 
   return 0;
 }
