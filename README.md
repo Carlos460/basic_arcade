@@ -1,13 +1,34 @@
-simple game using c and the SDL2 libraryo
+A simple sandbox game using C and the SDL2 library, includes two paddles and bouncing ball, endlessly bouncing.
 
-make build folder
+The left paddle move up (A Key) and down (D Key)
+as well as the right paddle, up (Left Key) and down (Right Key).
 
-cd into build folder
+## Build the project
+setup on mac or linux
+1. Make build folder
+```
+mkdir build
+```
 
-terminal: cmake ..
+2. change your directory into build folder
+```
+cd build
+```
 
-add the -DCMAKE_EXPORT_COMPILE_COMMANDS=1 option to generate compile_commands.json file 
+3. This project used cmake to build the game
+```
+cmake ..
+```
+or add the -DCMAKE_EXPORT_COMPILE_COMMANDS=1 option to generate compile_commands.json file
 
-terminal: make
-
-terminal: ./main
+```
+cmake -DCMAKE_EXPORT_COMPILE_COMMANDS=1 ..
+```
+4. Use the make command
+```
+make
+```
+5. Run the executable
+```
+./basic_arcade
+```
