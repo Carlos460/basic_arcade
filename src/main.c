@@ -1,20 +1,22 @@
-#include "./game/constants.h"
-#include "./game/controller.h"
-#include "./game/player.h"
-#include "./game/projectile.h"
-#include "./game/renderer.h"
-#include "./game/window.h"
-#include "SDL2/SDL.h"
+#include "./engine/constants.h"
+#include "./engine/controller.h"
+#include "./engine/player.h"
+#include "./engine/projectile.h"
+#include "./engine/renderer.h"
+#include "./engine/window.h"
 #include "SDL2/SDL_events.h"
 #include "SDL2/SDL_keycode.h"
-#include "SDL2/SDL_render.h"
 #include "SDL2/SDL_timer.h"
+#include "SDL2/SDL_mouse.h"
+#include "engine/physics.h"
+#include "engine/types.h"
+#include <stdio.h>
 
 int game_is_running = FALSE;
 
 int last_frame_time = 0;
 
-void setup(void) {
+void pong_setup(void) {
   // player 1 setup
   player_constructor(&player1, 50, 100, 10, 100);
 
@@ -29,6 +31,9 @@ void setup(void) {
 
   // ball setup
   projectile_constructor(&ball, 100, 100, 15, 15);
+}
+
+void setup(void) {
 }
 
 void process_input(void) {
@@ -47,6 +52,15 @@ void process_input(void) {
 }
 
 void update(void) {
+  struct {
+    int x;
+    int y;
+  } mouse;
+
+  SDL_GetMouseState(&mouse.x, &mouse.y);
+
+  printf("mouse value {x: %i, y: %i }\n", mouse.x, mouse.y);
+  
   // sleep the execution
   int time_to_wait = FRAME_TARGET_TIME - (SDL_GetTicks() - last_frame_time);
 

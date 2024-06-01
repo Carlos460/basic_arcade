@@ -7,10 +7,10 @@ link_directories(${CMAKE_SOURCE_DIR}/lib/SDL2)
 
 add_executable(basic_arcade
             ./src/main.c
-            ./src/game/controller.c
-            ./src/game/player.c
-            ./src/game/projectile.c
-            ./src/game/window.c
-            ./src/game/renderer.c)
+            ./src/engine/controller.c
+            ./src/engine/player.c
+            ./src/engine/projectile.c
+            ./src/engine/window.c
+            ./src/engine/renderer.c)
 
 target_link_libraries(basic_arcade SDL2)

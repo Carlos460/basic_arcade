@@ -13,7 +13,7 @@ int initialize_window(window_manager *wm, render_manager *rm) {
 
   wm->window =
       SDL_CreateWindow(NULL, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
-                       WINDOW_WIDTH, WINDOW_HEIGHT, SDL_WINDOW_BORDERLESS);
+                       WINDOW_WIDTH, WINDOW_HEIGHT, SDL_WINDOW_RESIZABLE);
 
   if (!wm->window) {
     fprintf(stderr, "Error creating SDL Window.\n");
