@@ -10,7 +10,7 @@ struct projectile {
   float height;
   int direction_x;
   int direction_y;
-} ball;
+};
 
 void projectile_constructor(struct projectile *p, float x, float y, float width,
                             float height);

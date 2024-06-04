@@ -1,0 +1,20 @@
+cmake_minimum_required(VERSION 3.28.1)
+project(basic_arcade C)
+
+set(CMAKE_C_STANDARD 17)
+set(CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake_modules)
+
+set(SDL2_PATH "C:/PATH/TO/SDL2DIR/x86_64-w64-mingw32")
+
+find_package(SDL2 REQUIRED)
+include_directories(${SDL2_INCLUDE_DIR})
+
+add_executable(basic_arcade
+            main.c
+            ./src/engine/controller.c
+            ./src/engine/player.c
+            ./src/engine/projectile.c
+            ./src/engine/window.c
+            ./src/engine/renderer.c)
+
+target_link_libraries(basic_arcade ${SDL2_LIBRARY})

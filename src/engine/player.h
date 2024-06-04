@@ -11,7 +11,7 @@ struct player {
   float height;
   int direction;
   struct controller controller;
-} player1, player2;
+};
 
 void player_constructor(struct player *p, float x, float y, float width,
                         float height);

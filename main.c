@@ -1,20 +1,25 @@
-#include "./engine/constants.h"
-#include "./engine/controller.h"
-#include "./engine/player.h"
-#include "./engine/projectile.h"
-#include "./engine/renderer.h"
-#include "./engine/window.h"
-#include "SDL2/SDL_events.h"
-#include "SDL2/SDL_keycode.h"
-#include "SDL2/SDL_timer.h"
-#include "SDL2/SDL_mouse.h"
-#include "engine/physics.h"
-#include "engine/types.h"
+#include "./src/engine/constants.h"
+#include "./src/engine/controller.h"
+#include "./src/engine/player.h"
+#include "./src/engine/projectile.h"
+#include "./src/engine/renderer.h"
+#include "./src/engine/window.h"
+#include "./src/engine/physics.h"
+#include "./src/engine/types.h"
+
+#include <SDL_events.h>
+#include <SDL_keycode.h>
+#include <SDL_timer.h>
+#include <SDL_mouse.h>
+
 #include <stdio.h>
 
 int game_is_running = FALSE;
-
 int last_frame_time = 0;
+
+struct player player1;
+struct player player2;
+struct projectile ball;
 
 void pong_setup(void) {
   // player 1 setup
@@ -85,13 +90,13 @@ void update(void) {
   player_window_collision(&player2, WINDOW_WIDTH, WINDOW_HEIGHT);
 }
 
-int main() {
+int main(int argc, char* argv[]) {
   window_manager wm = {NULL};
   render_manager rm = {NULL};
 
   game_is_running = initialize_window(&wm, &rm);
 
-  setup();
+  pong_setup();
 
   while (game_is_running) {
     process_input();

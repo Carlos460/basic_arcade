@@ -1,9 +1,10 @@
 #include "window.h"
-#include "SDL2/SDL.h"
-#include "SDL2/SDL_render.h"
-#include "SDL2/SDL_video.h"
 #include "constants.h"
 #include "renderer.h"
+#include <stdio.h>
+#include <SDL.h>
+#include <SDL_render.h>
+#include <SDL_video.h>
 
 int initialize_window(window_manager *wm, render_manager *rm) {
   if (SDL_Init(SDL_INIT_EVERYTHING) != 0) {

@@ -1,6 +1,6 @@
 #include "player.h"
 #include "projectile.h"
-#include "SDL2/SDL_render.h"
+#include <SDL_render.h>
 
 void render(SDL_Renderer *renderer,struct player *player1, struct player *player2, struct projectile *ball) {
   SDL_SetRenderDrawColor(renderer, 0, 0, 0, 0);

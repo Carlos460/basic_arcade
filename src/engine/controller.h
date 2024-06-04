@@ -3,8 +3,8 @@
 
 struct player;
 
-#include "SDL2/SDL_events.h"
-#include "SDL2/SDL_keycode.h"
+#include <SDL_events.h>
+#include <SDL_keycode.h>
 
 struct controller {
   SDL_KeyCode up;

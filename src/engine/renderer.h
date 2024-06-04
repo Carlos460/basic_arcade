@@ -1,7 +1,7 @@
 #ifndef RENDERER
 #define RENDERER
 
-#include "SDL2/SDL_render.h"
+#include <SDL_render.h>
 #include "player.h"
 #include "projectile.h"
 

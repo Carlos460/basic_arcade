@@ -1,4 +1,4 @@
-#include "SDL2/SDL_events.h"
+#include <SDL_events.h>
 #include "controller.h"
 #include "player.h"
 

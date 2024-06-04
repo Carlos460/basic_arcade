@@ -1,11 +1,12 @@
 #ifndef WINDOW_H
 #define WINDOW_H
 
-#include "SDL2/SDL.h"
-#include "SDL2/SDL_render.h"
-#include "SDL2/SDL_video.h"
 #include "constants.h"
 #include "renderer.h"
+
+#include <SDL.h>
+#include <SDL_render.h>
+#include <SDL_video.h>
 
 typedef struct {
   SDL_Window *window;
