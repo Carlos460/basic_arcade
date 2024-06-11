@@ -96,6 +96,7 @@ void update(void) {
   player_window_collision(&player2, WINDOW_WIDTH, WINDOW_HEIGHT);
 }
 
+// testing
 int main(int argc, char* argv[]) {
   window_manager wm = {NULL};
   render_manager rm = {NULL};
