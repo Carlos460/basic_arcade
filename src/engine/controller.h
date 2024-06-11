@@ -1,6 +1,4 @@
-#ifndef CONTROLLER_H
-#define CONTROLLER_H
-
+#pragma once
 struct player;
 
 #include <SDL_events.h>
@@ -13,6 +11,3 @@ struct controller {
 
 
 void controller_handle_events(SDL_Event event, struct player *player);
-
-#endif // !CONTROLLER
-

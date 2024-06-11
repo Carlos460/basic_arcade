@@ -19,6 +19,7 @@ int last_frame_time = 0;
 
 struct player player1;
 struct player player2;
+struct player cursor;
 struct projectile ball;
 
 void pong_setup(void) {
@@ -33,6 +34,9 @@ void pong_setup(void) {
 
   struct controller controller2 = {SDLK_LEFT, SDLK_RIGHT};
   player_attach_controller(&player2, controller2);
+
+  // cursor setup
+  player_constructor(&cursor, 100, 100, 20, 20);
 
   // ball setup
   projectile_constructor(&ball, 100, 100, 15, 15);
@@ -64,7 +68,9 @@ void update(void) {
 
   SDL_GetMouseState(&mouse.x, &mouse.y);
 
-  printf("mouse value {x: %i, y: %i }\n", mouse.x, mouse.y);
+  SDL_Log("mouse value {x: %i, y: %i }\n", mouse.x, mouse.y);
+  cursor.x = mouse.x;
+  cursor.y = mouse.y;
   
   // sleep the execution
   int time_to_wait = FRAME_TARGET_TIME - (SDL_GetTicks() - last_frame_time);
@@ -101,7 +107,7 @@ int main(int argc, char* argv[]) {
   while (game_is_running) {
     process_input();
     update();
-    render(rm.renderer, &player1, &player2, &ball);
+    render(rm.renderer, &player1, &player2, &ball, &cursor);
   }
 
   destroy_window(wm.window, rm.renderer);

@@ -10,5 +10,5 @@ typedef struct {
 } render_manager;
 
 void render(SDL_Renderer *renderer, struct player *player1,
-            struct player *player2, struct projectile *ball);
+            struct player *player2, struct projectile *ball, struct player *cursor);
 #endif // !RENDERER

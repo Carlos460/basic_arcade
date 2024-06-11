@@ -2,7 +2,7 @@
 #include "projectile.h"
 #include <SDL_render.h>
 
-void render(SDL_Renderer *renderer,struct player *player1, struct player *player2, struct projectile *ball) {
+void render(SDL_Renderer *renderer,struct player *player1, struct player *player2, struct projectile *ball, struct player *cursor) {
   SDL_SetRenderDrawColor(renderer, 0, 0, 0, 0);
   SDL_RenderClear(renderer);
 
@@ -28,10 +28,20 @@ void render(SDL_Renderer *renderer,struct player *player1, struct player *player
     (int)ball->height,
   };
 
+  SDL_Rect cursor_rect = {
+    (int)cursor->x,
+    (int)cursor->y,
+    (int)cursor->width,
+    (int)cursor->height,
+  };
+
+  
+
   SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
   SDL_RenderFillRect(renderer, &player1_rect); 
   SDL_RenderFillRect(renderer, &player2_rect);
   SDL_RenderFillRect(renderer, &ball_rect);
+  SDL_RenderFillRect(renderer, &cursor_rect);
 
   SDL_RenderPresent(renderer);
 }
